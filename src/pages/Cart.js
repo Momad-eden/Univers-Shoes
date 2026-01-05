@@ -1,6 +1,7 @@
-import { useContext } from 'react';
-import { CartContext } from '../context/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+import CartItem from "../components/CartItem";
 
 const Cart = () => {
   const {
@@ -34,44 +35,19 @@ const Cart = () => {
 
             <tbody>
               {cart.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.price.toLocaleString()} FCFA</td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-outline-secondary me-2"
-                      onClick={() => decreaseQty(item.id)}
-                    >
-                      -
-                    </button>
-
-                    {item.quantity}
-
-                    <button
-                      className="btn btn-sm btn-outline-secondary ms-2"
-                      onClick={() => addToCart(item)}
-                    >
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {(item.price * item.quantity).toLocaleString()} FCFA
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      X
-                    </button>
-                  </td>
-                </tr>
+                <CartItem
+                  key={`${item.id}-${item.size}`}
+                  item={item}
+                  onIncrease={addToCart}
+                  onDecrease={decreaseQty}
+                  onRemove={removeFromCart}
+                />
               ))}
             </tbody>
           </table>
 
-          <h4 className="text-end">
-            Total :{' '}
+          <h4 className="text-end mt-4">
+            Total :{" "}
             <span className="fw-bold">
               {total.toLocaleString()} FCFA
             </span>
@@ -79,7 +55,7 @@ const Cart = () => {
 
           <button
             className="btn btn-dark float-end mt-3"
-            onClick={() => navigate('/checkout')}
+            onClick={() => navigate("/checkout")}
           >
             Passer au paiement
           </button>

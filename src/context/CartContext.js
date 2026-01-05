@@ -1,33 +1,41 @@
-import { createContext, useState } from 'react';
+import { createContext, useState } from "react";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
-  // ➕ Ajouter au panier
+  // ➕ Ajouter au panier (id + size)
   const addToCart = (product) => {
-    const existing = cart.find((item) => item.id === product.id);
+    const existing = cart.find(
+      (item) =>
+        item.id === product.id &&
+        item.size === product.size
+    );
 
     if (existing) {
       setCart(
         cart.map((item) =>
-          item.id === product.id
+          item.id === product.id &&
+          item.size === product.size
             ? { ...item, quantity: item.quantity + 1 }
             : item
         )
       );
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([
+        ...cart,
+        { ...product, quantity: 1 }
+      ]);
     }
   };
 
-  // ➖ Diminuer quantité
-  const decreaseQty = (id) => {
+  // ➖ Diminuer quantité (id + size)
+  const decreaseQty = (id, size) => {
     setCart(
       cart
         .map((item) =>
-          item.id === id
+          item.id === id && item.size === size
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
@@ -35,19 +43,28 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // 🗑️ Supprimer produit
-  const removeFromCart = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+  // 🗑️ Supprimer un produit précis (id + size)
+  const removeFromCart = (id, size) => {
+    setCart(
+      cart.filter(
+        (item) =>
+          !(
+            item.id === id &&
+            item.size === size
+          )
+      )
+    );
   };
 
-  // 🧹 Vider panier
+  // 🧹 Vider le panier
   const clearCart = () => {
     setCart([]);
   };
 
   // 💰 Total
   const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) =>
+      sum + item.price * item.quantity,
     0
   );
 

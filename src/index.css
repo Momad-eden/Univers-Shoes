@@ -1,69 +1,502 @@
+/* ==================================================
+   DESIGN SYSTEM – UNIVERS SHOES
+================================================== */
+
+/* ===== VARIABLES ===== */
+:root {
+  --font-title: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --color-dark: #111;
+  --color-light: #fff;
+  --color-muted: #666;
+}
+
+/* ===== RESET ===== */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-dark);
+  background: var(--color-light);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.btn:hover {
-  transform: scale(1.03);
-  transition: 0.2s;
+/* ===== TYPO ===== */
+h1, h2, h3 {
+  font-family: var(--font-title);
+  letter-spacing: -0.02em;
 }
 
-.card:hover {
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+h1 { font-weight: 900; }
+h2 { font-weight: 800; }
+h3 { font-weight: 700; }
+
+/* ===== BUTTONS ===== */
+.us-btn-primary,
+.btn-hero {
+  display: inline-block;
+  background: var(--color-dark);
+  color: var(--color-light);
+  padding: 14px 36px;
+  border-radius: 50px;
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
 }
 
-.btn {
-  transition: 0.2s;
+.us-btn-primary:hover,
+.btn-hero:hover {
+  opacity: 0.85;
 }
 
-.btn:hover {
-  transform: scale(1.05);
+.us-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.card img {
-  max-height: 150px;
+/* ===== NAVBAR ===== */
+.us-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.us-navbar--hidden {
+  transform: translateY(-100%);
+}
+
+.us-logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.us-menu a {
+  margin: 0 14px;
+  font-weight: 500;
+}
+
+.us-icon {
+  position: relative;
+  font-size: 1.2rem;
+}
+
+.us-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: var(--color-dark);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.us-burger.open {
+  transform: rotate(90deg);
+}
+
+/* ===== NAVBAR TRANSPARENTE ===== */
+.us-navbar--transparent {
+  background: transparent;
+  border-bottom: none;
+}
+
+.us-navbar--transparent .us-logo,
+.us-navbar--transparent .us-menu a,
+.us-navbar--transparent .us-icon,
+.us-navbar--transparent .us-link-btn {
+  color: #fff;
+}
+
+.us-navbar--transparent .us-badge {
+  background: #fff;
+  color: #000;
+}
+
+/* ================= HERO VIDÉO (CORRIGÉ) ================= */
+.hero-video {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+
+  /* Grille invisible pour équilibre */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.hero-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  z-index: 0;
 }
 
-.card {
-  border-radius: 12px;
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 1;
 }
 
-input, textarea {
-  border-radius: 10px !important;
+/* ===== HERO TEXTE – POSITION ULTRA LUXE ===== */
+.hero-text {
+  position: relative;
+  z-index: 2;
+
+  grid-column: 1 / 2;
+  justify-self: center;
+
+  max-width: 600px;
+  padding-left: clamp(6%, 8vw, 12%);
+
+  /* 🔽 DESCENTE SUBTILE DU TEXTE */
+  margin-top: 12vh;
+
+  color: #fff;
 }
 
-.card {
-  border-radius: 16px;
+
+/* Eyebrow */
+.hero-eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
-.card {
-  border-radius: 16px;
+/* Titre */
+.hero-text h1 {
+  font-size: clamp(3.2rem, 5vw, 4.8rem);
+  line-height: 1.05;
+  margin-bottom: 22px;
 }
 
-.shadow-sm {
-  transition: 0.3s;
+/* Description */
+.hero-text p {
+  font-size: 1.05rem;
+  color: #ddd;
+  margin-bottom: 38px;
+  max-width: 480px;
 }
 
-.shadow-sm:hover {
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+/* ================= MOBILE ================= */
+@media (max-width: 900px) {
+  .hero-video {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-text {
+    grid-column: 1;
+    padding-left: 6%;
+    padding-right: 6%;
+  }
+
+  .hero-text h1 {
+    font-size: 2.6rem;
+  }
 }
 
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  filter: invert(1);
+/* ===== HERO MOBILE ===== */
+@media (max-width: 768px) {
+  .hero-video-bg {
+    display: none;
+  }
+
+  .hero-video {
+    background: url("../public/images/img-chaussure.jpeg")
+      center / cover no-repeat;
+  }
+
+  .hero-text {
+    margin-left: 6%;
+    margin-top: 18vh;
+  }
+
+  .hero-text h1 {
+    font-size: 2.6rem;
+  }
 }
 
-.card {
-  border-radius: 16px;
+/* ===== CTA HERO DÉCALÉ ===== */
+.hero-cta {
+  margin-top: 35px;
 }
 
+.btn-1 {
+  background-color: red;
+}
+
+.btn-1:hover  {
+  transform: translateY(4px);
+}
+
+
+/* CTA encore plus bas sur grand écran */
+@media (min-width: 1200px) {
+  .hero-cta {
+    margin-top: 60px;
+  }
+}
+
+/* Mobile : garder un bon équilibre */
+@media (max-width: 900px) {
+  .hero-cta {
+    margin-top: 50px;
+  }
+}
+
+
+
+/* ===== COLLECTIONS ===== */
+.collections-xl {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  min-height: 100vh;
+}
+
+.collection-block {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.collection-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* ===== MANIFESTO ===== */
+.brand-manifesto {
+  padding: 120px 20px;
+  max-width: 900px;
+  margin: auto;
+  text-align: center;
+}
+
+.brand-manifesto p {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: var(--color-muted);
+}
+
+/* ===== FEATURED ===== */
+.featured-xl {
+  padding: 100px 8%;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.featured-card img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+/* ===== CTA ===== */
+.cta-xl {
+  min-height: 60vh;
+  background: var(--color-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .collections-xl,
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ================= CTA FINAL PREMIUM ================= */
+.cta-xl {
+  position: relative;
+  min-height: 70vh;
+  background: linear-gradient(
+      rgba(0,0,0,0.55),
+      rgba(0,0,0,0.55)
+    ),
+    url("../public/images/img-chaussure.jpg") center / cover no-repeat;
+
+  display: flex;
+  align-items: center;
+}
+
+.cta-content {
+  max-width: 700px;
+  text-align: center;
+  color: #fff;
+}
+
+/* Eyebrow */
+.cta-eyebrow {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  font-weight: 600;
+}
+
+/* Titre */
+.cta-content h2 {
+  font-size: clamp(2.6rem, 4.5vw, 3.6rem);
+  line-height: 1.1;
+  margin-bottom: 22px;
+}
+
+/* Texte */
+.cta-content p {
+  font-size: 1.05rem;
+  color: #ddd;
+  margin-bottom: 40px;
+  max-width: 520px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+  .cta-xl {
+    min-height: 60vh;
+  }
+
+  .cta-content {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+
+  .cta-content h2 {
+    font-size: 2.2rem;
+  }
+}
+
+
+/* ================= GALERIE PRODUIT ================= */
+
+/* Conteneur des miniatures */
+.us-gallery-thumbs {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Bouton miniature */
+.us-thumb-btn {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* Image miniature */
+.us-thumb-btn img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+/* État actif */
+.us-thumb-btn.active img {
+  border-color: #111;
+}
+
+/* Hover subtil */
+.us-thumb-btn:hover img {
+  opacity: 0.85;
+}
+
+
+/* ================= ORDER SUMMARY ================= */
+.order-summary {
+  background: #fafafa;
+  padding: 24px;
+  border-radius: 18px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.order-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.order-line,
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.order-total {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.cart-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.cart-item-info h6 {
+  margin: 0;
+}
+
+.cart-remove {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

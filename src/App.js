@@ -12,6 +12,10 @@ import Register from "./pages/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
+import ProductDetails from './pages/ProductDetails';
+import CategoryPage from './pages/CategoryPage';
+
+
 
 // Components
 import Navbar from "./components/Navbar";
@@ -30,6 +34,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/category/:category" element={<CategoryPage />} />
+
             <Route
               path="/admin"
               element={

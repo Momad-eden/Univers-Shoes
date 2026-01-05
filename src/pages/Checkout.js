@@ -1,19 +1,27 @@
-import React, { useContext, useState } from 'react';
-import { motion } from 'framer-motion';
-import { CartContext } from '../context/CartContext';
-import { toast } from 'react-toastify';
+import { useContext, useState } from "react";
+import { motion } from "framer-motion";
+import { CartContext } from "../context/CartContext";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
-  const { cartItems } = useContext(CartContext);
+  // ⚠️ on harmonise avec le reste du projet
+  const { cart } = useContext(CartContext);
 
   const [form, setForm] = useState({
-    fullname: '',
-    phone: '',
-    address: '',
-    payment: 'mobile'
+    fullname: "",
+    phone: "",
+    address: "",
+    payment: "mobile",
   });
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const deliveryFee = 2000;
+
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * (item.quantity || 1),
+    0
+  );
+
+  const total = subtotal + deliveryFee;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,16 +31,18 @@ const Checkout = () => {
     e.preventDefault();
 
     if (!form.fullname || !form.phone || !form.address) {
-      toast.error('Veuillez remplir tous les champs');
+      toast.error("Veuillez remplir tous les champs");
       return;
     }
 
-    // Simulation paiement
-    toast.success('Paiement en cours de traitement...');
-    console.log('Commande envoyée :', {
+    toast.success("Commande confirmée. Paiement en cours...");
+
+    console.log("Commande :", {
       client: form,
-      produits: cartItems,
-      total
+      produits: cart,
+      subtotal,
+      deliveryFee,
+      total,
     });
   };
 
@@ -43,18 +53,19 @@ const Checkout = () => {
       transition={{ duration: 0.4 }}
       className="container my-5"
     >
-      <h2 className="text-center mb-4">💳 Paiement</h2>
+      <h2 className="text-center mb-5">Finaliser la commande</h2>
 
-      {cartItems.length === 0 ? (
+      {cart.length === 0 ? (
         <p className="text-center text-muted">
           Votre panier est vide
         </p>
       ) : (
-        <div className="row">
-          {/* FORMULAIRE */}
+        <div className="row g-5">
+
+          {/* ================= FORMULAIRE ================= */}
           <div className="col-md-7">
-            <div className="card shadow border-0 p-4 mb-4">
-              <h5 className="mb-3">Informations client</h5>
+            <div className="card shadow-sm border-0 p-4">
+              <h5 className="mb-4">Informations de livraison</h5>
 
               <form onSubmit={handleSubmit}>
                 <input
@@ -78,13 +89,13 @@ const Checkout = () => {
                 <textarea
                   name="address"
                   placeholder="Adresse de livraison"
-                  className="form-control mb-3"
+                  className="form-control mb-4"
                   rows="3"
                   value={form.address}
                   onChange={handleChange}
                 />
 
-                <h6 className="mt-3">Méthode de paiement</h6>
+                <h6 className="mb-3">Méthode de paiement</h6>
 
                 <div className="form-check">
                   <input
@@ -92,7 +103,7 @@ const Checkout = () => {
                     type="radio"
                     name="payment"
                     value="mobile"
-                    checked={form.payment === 'mobile'}
+                    checked={form.payment === "mobile"}
                     onChange={handleChange}
                   />
                   <label className="form-check-label">
@@ -106,7 +117,7 @@ const Checkout = () => {
                     type="radio"
                     name="payment"
                     value="card"
-                    checked={form.payment === 'card'}
+                    checked={form.payment === "card"}
                     onChange={handleChange}
                   />
                   <label className="form-check-label">
@@ -114,36 +125,56 @@ const Checkout = () => {
                   </label>
                 </div>
 
-                <button className="btn btn-dark w-100">
-                  Payer maintenant
+                <button className="us-btn-primary w-100">
+                  Confirmer & payer
                 </button>
               </form>
             </div>
           </div>
 
-          {/* RÉCAP */}
+          {/* ================= RÉSUMÉ AVANT PAIEMENT ================= */}
           <div className="col-md-5">
-            <div className="card shadow border-0 p-4">
-              <h5 className="mb-3">Résumé</h5>
+            <div className="order-summary">
+              <h5 className="mb-4">Résumé de la commande</h5>
 
-              {cartItems.map((item, index) => (
-                <div
-                  key={index}
-                  className="d-flex justify-content-between mb-2"
-                >
-                  <span>{item.name}</span>
-                  <span>{item.price} FCFA</span>
+              {cart.map((item, index) => (
+                <div key={index} className="order-item">
+                  <img src={item.image} alt={item.name} />
+
+                  <div>
+                    <p className="fw-semibold mb-1">
+                      {item.name}
+                    </p>
+                    <small className="text-muted">
+                      Pointure : {item.size}
+                    </small>
+                  </div>
+
+                  <span>
+                    {item.price.toLocaleString()} FCFA
+                  </span>
                 </div>
               ))}
 
               <hr />
 
-              <div className="d-flex justify-content-between fw-bold">
+              <div className="order-line">
+                <span>Sous-total</span>
+                <span>{subtotal.toLocaleString()} FCFA</span>
+              </div>
+
+              <div className="order-line">
+                <span>Livraison</span>
+                <span>{deliveryFee.toLocaleString()} FCFA</span>
+              </div>
+
+              <div className="order-total">
                 <span>Total</span>
-                <span>{total} FCFA</span>
+                <span>{total.toLocaleString()} FCFA</span>
               </div>
             </div>
           </div>
+
         </div>
       )}
     </motion.div>
