@@ -1,14 +1,16 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { AdminLogContext } from "../context/AdminLogContext";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const { login } = useContext(AuthContext);
+  const { addLog } = useContext(AdminLogContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -19,9 +21,33 @@ const Login = () => {
       return;
     }
 
-    login(email);
+    // 🔐 Détection admin (mode développement)
+    const isAdmin =
+      email === "admin@universshoes.com" && password === "admin123";
+
+    const user = {
+      id: Date.now(),
+      name: isAdmin ? "Admin" : "Client",
+      role: isAdmin ? "admin" : "user",
+      email,
+    };
+
+    // ✅ Login UNE SEULE FOIS
+    login(user);
+
+    // ✅ Log admin UNIQUEMENT si admin
+    if (isAdmin) {
+      addLog({
+        adminName: "Admin",
+        action: "Connexion",
+        description: "Connexion au dashboard admin",
+      });
+    }
+
     toast.success("Connexion réussie");
-    navigate("/");
+
+    // Redirection
+    navigate(isAdmin ? "/admin" : "/");
   };
 
   return (
@@ -43,6 +69,7 @@ const Login = () => {
                   className="form-control mb-3"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
 
                 <input
@@ -51,14 +78,23 @@ const Login = () => {
                   className="form-control mb-3"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
 
-                <button className="btn btn-dark w-100">Se connecter</button>
+                <button className="btn btn-dark w-100">
+                  Se connecter
+                </button>
               </form>
 
               <p className="text-center mt-3">
-                Pas de compte ? <Link to="/register">Créer un compte</Link>
+                Pas de compte ?{" "}
+                <Link to="/register">Créer un compte</Link>
               </p>
+
+              {/* AIDE DEV (OPTIONNEL) */}
+              <div className="text-muted small mt-3">
+                <strong>Admin :</strong> admin@universshoes.com / admin123
+              </div>
             </div>
           </div>
         </div>
