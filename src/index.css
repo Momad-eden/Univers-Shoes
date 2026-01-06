@@ -63,35 +63,111 @@ h3 { font-weight: 700; }
   cursor: not-allowed;
 }
 
-/* ===== NAVBAR ===== */
-.us-navbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+.us-admin-link, .us-link-btn {
+  color: white;
+  font-weight: 600;
+  border: 1px solid red;
+  background-color: red;
+  padding: 12px;
+  border-radius: 5px;
 }
 
+/* ===== NAVBAR ===== */
+.us-navbar {
+  position: fixed;          /* AU-DESSUS du hero */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;            /* PLUS HAUT que le hero */
+
+  padding: 15px 10px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+
+  transition:
+    transform 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/*
+   On enlève le padding-top global
+   car le hero passe derrière */
+body {
+  padding-top: 0;
+}
+
+
+/* ===== NAVBAR MASQUÉE AU SCROLL ===== */
 .us-navbar--hidden {
   transform: translateY(-100%);
 }
 
-.us-logo {
-  font-weight: 800;
-  font-size: 1.3rem;
+.us-navbar--transparent {
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
 }
 
-.us-menu a {
-  margin: 0 14px;
+/* Texte blanc au-dessus du hero */
+.us-navbar--transparent .us-logo,
+.us-navbar--transparent .us-menu a,
+.us-navbar--transparent .us-icon,
+.us-navbar--transparent .us-link-btn {
+  color: #fff;
+  font-size: 1.2rem;
   font-weight: 500;
 }
 
+/* Badge panier inversé */
+.us-navbar--transparent .us-badge {
+  background: #fff;
+  color: #000;
+}
+
+
+.us-navbar:not(.us-navbar--transparent) {
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+/* ===== LOGO ===== */
+.us-logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+/* ===== MENU ===== */
+.us-menu a {
+  margin: 0 14px;
+  font-weight: 500;
+  position: relative;
+}
+
+/* Underline subtil */
+.us-menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--color-dark);
+  transition: width 0.25s ease;
+}
+
+.us-menu a:hover::after {
+  width: 100%;
+}
+
+/* ===== ACTIONS ===== */
 .us-icon {
   position: relative;
   font-size: 1.2rem;
 }
 
+/* Badge panier */
 .us-badge {
   position: absolute;
   top: -6px;
@@ -103,27 +179,118 @@ h3 { font-weight: 700; }
   border-radius: 50%;
 }
 
+/* ===== BURGER ===== */
+.us-burger {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  transition: transform 0.25s ease;
+}
+
 .us-burger.open {
   transform: rotate(90deg);
 }
 
-/* ===== NAVBAR TRANSPARENTE ===== */
-.us-navbar--transparent {
-  background: transparent;
-  border-bottom: none;
+
+/* ==================================================
+   NAVBAR MOBILE – VERSION PROPRE & STABLE
+   (ÉCRASE TOUT LE COMPORTEMENT DESKTOP)
+================================================== */
+@media (max-width: 768px) {
+
+  /* ===== NAVBAR : TOUJOURS BLANCHE ===== */
+  .us-navbar {
+    background: #fff !important;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    padding: 10px 12px;
+  }
+
+
+  /* ===== STRUCTURE GLOBALE EN COLONNE ===== */
+  .us-navbar > .container-fluid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  /* ===== LIGNE 1 : LOGO ===== */
+  .us-logo {
+    font-size: 1.4rem;
+    color: var(--color-dark) !important;
+  }
+
+  /* ===== MENU DESKTOP DÉSACTIVÉ ===== */
+  .us-menu {
+    display: none !important;
+  }
+
+  /* ===== LIGNE 2 : BURGER | PANIER ===== */
+  .us-actions {
+    display: grid;
+    grid-template-rows: 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .us-burger {
+    display: inline-flex;
+    justify-self: start;
+    font-size: 1.6rem;
+    color: var(--color-dark);
+  }
+
+  .us-icon {
+    display: none;
+    justify-self: end;
+    font-size: 1.5rem;
+    color: var(--color-dark);
+  }
+
+  .us-badge {
+    background: var(--color-dark);
+    color: #fff;
+  }
+
+  /* ===== LIGNE 3 : AUTH ===== */
+  /* Masquer les boutons auth dans la navbar */
+  .us-navbar .us-link-btn,
+  .us-navbar .us-admin-link {
+    display: none !important;
+  }
+
+  /* Les afficher UNIQUEMENT dans le menu burger */
+  .us-mobile-menu .us-link-btn,
+  .us-mobile-menu .us-admin-link {
+    display: block !important;
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    text-align: center;
+    background: var(--color-dark);
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  /* ===== MENU BURGER ===== */
+  .us-mobile-menu {
+    background: #fff;
+    padding: 90px 24px 24px;
+  }
+
+  .us-mobile-menu a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
 }
 
-.us-navbar--transparent .us-logo,
-.us-navbar--transparent .us-menu a,
-.us-navbar--transparent .us-icon,
-.us-navbar--transparent .us-link-btn {
-  color: #fff;
-}
 
-.us-navbar--transparent .us-badge {
-  background: #fff;
-  color: #000;
-}
 
 /* ================= HERO VIDÉO (CORRIGÉ) ================= */
 .hero-video {
@@ -153,6 +320,12 @@ h3 { font-weight: 700; }
   z-index: 1;
 }
 
+.hero-video,
+.us-hero {
+  padding-top: 100px;
+}
+
+
 /* ===== HERO TEXTE – POSITION ULTRA LUXE ===== */
 .hero-text {
   position: relative;
@@ -164,8 +337,8 @@ h3 { font-weight: 700; }
   max-width: 600px;
   padding-left: clamp(6%, 8vw, 12%);
 
-  /* 🔽 DESCENTE SUBTILE DU TEXTE */
-  margin-top: 12vh;
+  /*  DESCENTE SUBTILE DU TEXTE */
+  margin-top: 6vh;
 
   color: #fff;
 }
@@ -227,8 +400,8 @@ h3 { font-weight: 700; }
   }
 
   .hero-text {
-    margin-left: 6%;
-    margin-top: 18vh;
+    margin-left: 8%;
+    margin-top: 0.2rem;
   }
 
   .hero-text h1 {
@@ -243,17 +416,18 @@ h3 { font-weight: 700; }
 
 .btn-1 {
   background-color: red;
+  transform: translateY(-20px);
 }
 
 .btn-1:hover  {
-  transform: translateY(4px);
+  background-color: darkred;
 }
 
 
 /* CTA encore plus bas sur grand écran */
 @media (min-width: 1200px) {
   .hero-cta {
-    margin-top: 60px;
+    margin-top: 40px;
   }
 }
 
@@ -500,3 +674,9 @@ h3 { font-weight: 700; }
   font-size: 1.2rem;
   cursor: pointer;
 }
+
+/* =================OFFSET NAVBAR FIXED================= */
+.page-content {
+  padding-top: 100px; /* hauteur réelle de la navbar */
+}
+

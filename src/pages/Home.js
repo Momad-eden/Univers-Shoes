@@ -97,9 +97,9 @@ const Home = () => {
               className="featured-card"
             >
               <img src={product.image} alt={product.name} />
-              <div className="featured-info">
+              <div className="featured-info p-3">
                 <h4>{product.name}</h4>
-                <span>{product.price.toLocaleString()} FCFA</span>
+                <span style={{ color: "#6366f1" }}>{product.price.toLocaleString()} FCFA</span>
               </div>
             </Link>
           ))}

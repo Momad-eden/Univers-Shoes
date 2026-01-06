@@ -67,7 +67,7 @@ const Navbar = () => {
         ${isHome && !solid ? 'us-navbar--transparent' : ''}
       `}
     >
-      <div className="container-fluid d-flex align-items-center justify-content-between px-4">
+      <div className="container-fluid d-flex align-items-center justify-content-between px-4 mb-4">
 
         {/* LOGO */}
         <Link to="/" className="us-logo">
